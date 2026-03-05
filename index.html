@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Шуточный тест: Какой ты новогодний персонаж?</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --text:#eaf0ff;
+      --muted:#b8c2e0;
+      --accent:#7dd3fc;
+      --accent2:#a78bfa;
+      --btn:#1b2a4a;
+      --btnHover:#233861;
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 10% 10%, rgba(125,211,252,.18), transparent 55%),
+        radial-gradient(1000px 700px at 90% 20%, rgba(167,139,250,.16), transparent 55%),
+        radial-gradient(900px 700px at 50% 90%, rgba(52,211,153,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .wrap{width:min(880px, 100%)}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    header{padding:22px 22px 0 22px}
+    h1{
+      margin:0;
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      margin:10px 0 0 0;
+      color:var(--muted);
+      line-height:1.45;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:0 22px 18px 22px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 12px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .progress{
+      width: 220px;
+      height: 8px;
+      background: rgba(255,255,255,.08);
+      border-radius: 999px;
+      overflow:hidden;
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+    .content{padding:22px; display:grid; gap:18px;}
+    .page{ display:none; }
+    .page.active{ display:block; }
+
+    .imgbox{
+      width:100%;
+      aspect-ratio: 16 / 7;
+      border-radius: 14px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:rgba(255,255,255,.35);
+      user-select:none;
+    }
+    .imgbox img{width:100%; height:100%; object-fit:cover; display:block;}
+
+    .qtitle{font-size:18px; margin:0; line-height:1.35;}
+    .answers{display:grid; gap:10px; margin-top:6px;}
+
+    button{
+      border:1px solid rgba(255,255,255,.10);
+      background: var(--btn);
+      color: var(--text);
+      padding: 14px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      text-align:left;
+      font-size:16px;
+      line-height:1.35;
+      transition: transform .06s ease, background .15s ease, border-color .15s ease;
+    }
+    button:hover{background: var(--btnHover); border-color: rgba(255,255,255,.18);}
+    button:active{transform: translateY(1px);}
+
+    .primary{
+      text-align:center;
+      font-weight:700;
+      background: linear-gradient(90deg, rgba(125,211,252,.22), rgba(167,139,250,.22));
+      border-color: rgba(255,255,255,.16);
+    }
+
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+    .ghost{background: rgba(255,255,255,.04);}
+
+    .resultBox{
+      padding:16px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      line-height:1.55;
+    }
+
+    footer{
+      padding: 0 22px 22px 22px;
+      color: rgba(255,255,255,.45);
+      font-size: 13px;
+    }
+    code{color:rgba(255,255,255,.7)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <h1>Шуточный тест: «Какой ты новогодний персонаж?» 🎄</h1>
+      </header>
+
+      <div class="topbar">
+        <div class="pill">
+          <span id="stepLabel">Старт</span>
+          <div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+        </div>
+        <div class="pill"><span id="navHint">Нажми «Узнать, кто я»</span></div>
+      </div>
+
+      <div class="content">
+        <!-- INTRO -->
+        <section class="page active" id="page-intro">
+<div class="imgbox" aria-label="Обложка">
+  <img src="images/cover.png" alt="Обложка теста">
+</div>
+
+
+          <div class="resultBox">
+            <strong>Правила:</strong>
+            <ul>
+              <li>На каждый вопрос выбирай <strong>один</strong> вариант, который ближе всего к тебе.</li>
+            </ul>
+          </div>
+
+          <div class="actions">
+            <button class="primary" id="startBtn">Узнать, кто я</button>
+          </div>
+        </section>
+
+        <!-- QUESTIONS -->
+        <div id="pages"></div>
+
+        <!-- RESULT -->
+        <section class="page" id="page-result">
+          <div class="imgbox" id="resultImgBox">
+            <img id="resultImg" src="" alt="Картинка результата">
+          </div>
+
+          <h2 class="qtitle" id="resultTitle">Ваш результат</h2>
+          <div class="resultBox" id="resultText"></div>
+
+          <div class="actions">
+            <button class="primary" id="restartBtn">Пройти заново</button>
+            <button class="ghost" id="shareBtn" title="Скопировать ссылку">Скопировать ссылку</button>
+          </div>
+        </section>
+      </div>
+  </div>
+
+<script>
+  // --- DATA ---
+  const questions = [
+    { img: "images/01.png", text: "Вопрос 1. Ваш подход к подготовке к празднику:",
+      answers: [
+        { key: "A", text: "А) Всё должно быть идеально! Меню расписано по минутам, гирлянды висят ровно в сантиметр друг от друга." },
+        { key: "B", text: "Б) Главное — создать атмосферу веселья! Готовность салата и наличие всех шариков на ёлке — вопросы второстепенные." },
+        { key: "V", text: "В) Я помню, что нужно купить... что-то важное. Возможно, подарки? Или мандарины? Впрочем, как-нибудь обойдётся." },
+        { key: "G", text: "Г) Кто готовит? Я? Ну уж нет, я приду, оценю и красиво сфотографирую." }
+      ]
+    },
+    { img: "images/02.png", text: "Вопрос 2. Что вы делаете в момент боя курантов?",
+      answers: [
+        { key: "A", text: "А) Торжественно разливаю шампанское по бокалам, следя, чтобы пена была идеальной." },
+        { key: "B", text: "Б) Громче всех кричу «Ура-а-а!» и пытаюсь всех обнять." },
+        { key: "V", text: "В) Судорожно вспоминаю, где оставил тот самый тост, который готовил полчаса." },
+        { key: "G", text: "Г) Ищу лучший ракурс для селфи с телевизором на фоне." }
+      ]
+    },
+    { img: "images/03.png", text: "Вопрос 3. Ваша реакция на салат «Оливье»:",
+      answers: [
+        { key: "A", text: "А) Это классика. Но в моём рецепте есть секретный ингредиент, и нарезано всё кубиками строго 5×5 мм." },
+        { key: "B", text: "Б) Ложкой? Да ладно, можно и вилкой! А лучше сразу с тарелки соседа — так вкуснее!" },
+        { key: "V", text: "В) А, это тот салат, где нужно варить овощи? Я, кажется, забыл яйца купить." },
+        { key: "G", text: "Г) Сначала свет, фильтр «праздничное настроение», потом можно и попробовать." }
+      ]
+    },
+    { img: "images/04.png", text: "Вопрос 4. Куда денетесь в разгар застолья?",
+      answers: [
+        { key: "A", text: "А) Буду следить, чтобы у всех было в тарелках и бокалах, и мыть посуду за гостями." },
+        { key: "B", text: "Б) Буду в центре гостиной рассказывать анекдот или танцевать." },
+        { key: "V", text: "В) Усну в кресле под телевизор, а проснусь только чтобы доесть холодец." },
+        { key: "G", text: "Г) Буду редактировать и выкладывать фото в соцсети с хештегом #лучшийновыйгод." }
+      ]
+    },
+    { img: "images/05.png", text: "Вопрос 5. Ваш идеальный новогодний подарок:",
+      answers: [
+        { key: "A", text: "А) Практичный и качественный. Новый набор контейнеров для остатков того же оливье." },
+        { key: "B", text: "Б) Что угодно, лишь бы вручили с шуткой и смехом. Даже носок можно обыграть!" },
+        { key: "V", text: "В) Подарок? Мне? Ой, а я вам ничего не приготовил... Спасибо, мне очень стыдно!" },
+        { key: "G", text: "Г) Подарок должен быть фотогеничным и вызывать зависть в инстаграме." }
+      ]
+    }
+  ];
+
+  // Картинки для итогов (свои для каждого результата)
+  // Положи файлы в images/ с такими именами (можешь переименовать тут как угодно):
+  const resultImages = {
+    A: "images/res_A.png",
+    B: "images/res_B.png",
+    V: "images/res_V.png",
+    G: "images/res_G.png",
+    MIX: "images/res_MIX.png"
+  };
+
+  const results = {
+    A: {
+      title: "Вы «Дед Мороз-Перфекционист» 🎅📏",
+      text: `
+        Вы не просто дарите подарки, вы их сортируете по алфавиту и упаковываете с идеальными уголками.
+        На вас держится весь праздник: вы знаете, где спрятаны свечи, как открыть шампанское без хлопка и почему холодец не застыл.
+        <br><br><strong>Девиз:</strong> «Щепка, опилки — мне не надо! Всё должно быть гладко!»
+      `
+    },
+    B: {
+      title: "Вы «Шампанское Искристое» 🥂✨",
+      text: `
+        Вы — душа компании и двигатель праздника! Появляетесь с громким «Поехали!» и заводите всех вокруг.
+        Можете разбудить того, кто уснул под «Голубой огонёк», и заставить его танцевать.
+        <br><br>К утру от вас иногда остаётся только пустая бутылка и чувство лёгкой головной боли,
+        но все вспоминают это с улыбкой.
+      `
+    },
+    V: {
+      title: "Вы «Снеговик-Рассеянный» ☃️🥣",
+      text: `
+        Ваше обаяние в лёгкой беспомощности. Вы вечно теряете нос-морковку, забываете, зачем пришли на кухню,
+        и ваш головной убор — это не ведро, а случайно найденный дуршлаг.
+        <br><br>Но вас все любят, потому что вы создаёте уютную атмосферу милого хаоса и напоминаете,
+        что можно просто расслабиться и ничего не делать.
+      `
+    },
+    G: {
+      title: "Вы «Гирлянда-Инстаграмная» 📸🎇",
+      text: `
+        Главное для вас — эстетика! Вы создаёте идеальные кадры: бокал на фоне ёлки, красивая сервировка,
+        падающий за окном снег (если нужно — из пакета).
+        <br><br>Вы можете час искать правильный ракурс для селфи с мандарином.
+        Для вас Новый год наступает ровно в момент, когда вы нажимаете кнопку «опубликовать».
+      `
+    },
+    MIX: {
+      title: "Вы «Новогодний Коктейль» 🍹🎄",
+      text: `
+        В вас есть по чуть-чуть от каждого! Вы умеете и организовать, и повеселиться, и расслабиться, и сделать красиво.
+        Вы — универсальный новогодний друг, без которого праздник не полный.
+        <br><br>Правда, иногда вы сами не понимаете, чего хотите, но в этом и есть ваша изюминка!
+      `
+    }
+  };
+
+  // --- STATE (hidden) ---
+  let counts = { A: 0, B: 0, V: 0, G: 0 };
+  let currentIndex = -1;
+  const chosen = [];
+
+  // --- UI ---
+  const pagesRoot = document.getElementById("pages");
+  const stepLabel = document.getElementById("stepLabel");
+  const progressBar = document.getElementById("progressBar");
+  const navHint = document.getElementById("navHint");
+
+  const introPage = document.getElementById("page-intro");
+  const resultPage = document.getElementById("page-result");
+  const resultTitle = document.getElementById("resultTitle");
+  const resultText = document.getElementById("resultText");
+  const resultImg = document.getElementById("resultImg");
+  const resultImgBox = document.getElementById("resultImgBox");
+
+  function buildQuestionPages(){
+    pagesRoot.innerHTML = "";
+    questions.forEach((q, idx) => {
+      const section = document.createElement("section");
+      section.className = "page";
+      section.id = `page-q${idx}`;
+
+      const imgBox = document.createElement("div");
+      imgBox.className = "imgbox";
+
+      const img = document.createElement("img");
+      img.src = q.img;
+      img.alt = `Картинка к вопросу ${idx+1}`;
+      img.onerror = function(){
+        img.style.display = "none";
+        imgBox.textContent = `🖼️ Добавь картинку: ${q.img}`;
+        imgBox.style.color = "rgba(255,255,255,.45)";
+      };
+      imgBox.appendChild(img);
+
+      const title = document.createElement("h2");
+      title.className = "qtitle";
+      title.textContent = q.text;
+
+      const answers = document.createElement("div");
+      answers.className = "answers";
+
+      q.answers.forEach(a => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = a.text;
+        btn.addEventListener("click", () => chooseAnswer(a.key));
+        answers.appendChild(btn);
+      });
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const backBtn = document.createElement("button");
+      backBtn.className = "ghost";
+      backBtn.type = "button";
+      backBtn.textContent = "Назад";
+      backBtn.addEventListener("click", goBack);
+
+      actions.appendChild(backBtn);
+
+      section.appendChild(imgBox);
+      section.appendChild(title);
+      section.appendChild(answers);
+      section.appendChild(actions);
+
+      pagesRoot.appendChild(section);
+    });
+  }
+
+  function showPageByIndex(idx){
+    currentIndex = idx;
+
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+
+    if(idx === -1){
+      introPage.classList.add("active");
+      stepLabel.textContent = "Старт";
+      navHint.textContent = "Нажми «Узнать, кто я»";
+      progressBar.style.width = "0%";
+      return;
+    }
+
+    if(idx >= 0 && idx < questions.length){
+      document.getElementById(`page-q${idx}`).classList.add("active");
+      stepLabel.textContent = `Вопрос ${idx+1} из ${questions.length}`;
+      navHint.textContent = "Выбери ответ";
+      progressBar.style.width = `${Math.round((idx)/questions.length*100)}%`;
+      return;
+    }
+
+    resultPage.classList.add("active");
+    stepLabel.textContent = "Итог";
+    navHint.textContent = "Можно пройти ещё раз";
+    progressBar.style.width = "100%";
+  }
+
+  function chooseAnswer(key){
+    const qIdx = currentIndex;
+    if(qIdx < 0 || qIdx >= questions.length) return;
+
+    if(chosen[qIdx]){
+      counts[chosen[qIdx]]--;
+    }
+
+    chosen[qIdx] = key;
+    counts[key]++;
+
+    if(qIdx === questions.length - 1){
+      showResult();
+    } else {
+      showPageByIndex(qIdx + 1);
+    }
+  }
+
+  function goBack(){
+    if(currentIndex === -1) return;
+
+    if(currentIndex >= questions.length){
+      showPageByIndex(questions.length - 1);
+      return;
+    }
+    if(currentIndex === 0){
+      showPageByIndex(-1);
+      return;
+    }
+    showPageByIndex(currentIndex - 1);
+  }
+
+  function showResult(){
+    const maxVal = Math.max(counts.A, counts.B, counts.V, counts.G);
+    const leaders = Object.entries(counts).filter(([k,v]) => v === maxVal).map(([k]) => k);
+    const finalKey = (leaders.length === 1) ? leaders[0] : "MIX";
+
+    const r = results[finalKey];
+    resultTitle.textContent = r.title;
+    resultText.innerHTML = r.text;
+
+    // --- set result image based on finalKey ---
+    const imgPath = resultImages[finalKey] || resultImages.MIX;
+    resultImgBox.style.color = "rgba(255,255,255,.35)";
+    resultImg.style.display = "block";
+    resultImg.src = imgPath;
+    resultImg.alt = `Картинка результата: ${finalKey}`;
+
+    // graceful fallback if image missing
+    resultImg.onerror = function(){
+      resultImg.style.display = "none";
+      resultImgBox.textContent = `🖼️ Добавь картинку результата: ${imgPath}`;
+      resultImgBox.style.color = "rgba(255,255,255,.45)";
+    };
+
+    showPageByIndex(questions.length);
+  }
+
+  function resetAll(){
+    counts = { A:0, B:0, V:0, G:0 };
+    chosen.length = 0;
+
+    // restore result box state (in case fallback text was shown)
+    resultImgBox.textContent = "";
+    resultImgBox.appendChild(resultImg);
+
+    showPageByIndex(-1);
+  }
+
+  document.getElementById("startBtn").addEventListener("click", () => showPageByIndex(0));
+  document.getElementById("restartBtn").addEventListener("click", resetAll);
+
+  document.getElementById("shareBtn").addEventListener("click", async () => {
+    const url = window.location.href;
+    try{
+      await navigator.clipboard.writeText(url);
+      alert("Ссылка скопирована! ✅");
+    }catch(e){
+      prompt("Скопируй ссылку вручную:", url);
+    }
+  });
+
+  // init
+  buildQuestionPages();
+  showPageByIndex(-1);
+</script>
+</body>
+</html>
+
+
+
+
