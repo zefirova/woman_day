@@ -456,34 +456,35 @@ text:`В тебе есть понемногу от каждой!
     showPageByIndex(currentIndex - 1);
   }
 
-  function showResult(){
-    const maxVal = Math.max(counts.A, counts.B, counts.V, counts.G);
-    const leaders = Object.entries(counts).filter(([k,v]) => v === maxVal).map(([k]) => k);
-    const finalKey = (leaders.length === 1) ? leaders[0] : "MIX";
+function showResult(){
+  const maxVal = Math.max(...Object.values(counts));
+  const leaders = Object.entries(counts)
+    .filter(([k,v]) => v === maxVal)
+    .map(([k]) => k);
 
-    const r = results[finalKey];
-    resultTitle.textContent = r.title;
-    resultText.innerHTML = r.text;
+  const finalKey = (leaders.length === 1) ? leaders[0] : "MIX";
 
-    // --- set result image based on finalKey ---
-    const imgPath = resultImages[finalKey] || resultImages.MIX;
-    resultImgBox.style.color = "rgba(255,255,255,.35)";
-    resultImg.style.display = "block";
-    resultImg.src = imgPath;
-    resultImg.alt = `Картинка результата: ${finalKey}`;
+  const r = results[finalKey];
+  resultTitle.textContent = r.title;
+  resultText.innerHTML = r.text;
 
-    // graceful fallback if image missing
-    resultImg.onerror = function(){
-      resultImg.style.display = "none";
-      resultImgBox.textContent = `🖼️ Добавь картинку результата: ${imgPath}`;
-      resultImgBox.style.color = "rgba(255,255,255,.45)";
-    };
+  const imgPath = resultImages[finalKey] || resultImages.MIX;
+  resultImgBox.style.color = "rgba(255,255,255,.35)";
+  resultImg.style.display = "block";
+  resultImg.src = imgPath;
+  resultImg.alt = `Картинка результата: ${finalKey}`;
 
-    showPageByIndex(questions.length);
-  }
+  resultImg.onerror = function(){
+    resultImg.style.display = "none";
+    resultImgBox.textContent = `🖼️ Добавь картинку результата: ${imgPath}`;
+    resultImgBox.style.color = "rgba(255,255,255,.45)";
+  };
+
+  showPageByIndex(questions.length);
+}
 
   function resetAll(){
-    counts = { A:0, B:0, V:0, G:0 };
+    counts = { A:0, B:0, C:0, D:0, E:0 };
     chosen.length = 0;
 
     // restore result box state (in case fallback text was shown)
@@ -512,6 +513,7 @@ text:`В тебе есть понемногу от каждой!
 </script>
 </body>
 </html>
+
 
 
 
